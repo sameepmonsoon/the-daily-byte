@@ -17,9 +17,7 @@ const GlobalNotFound = () => {
             Oops! Page Not Found
           </h2>
           <p className="text-muted-foreground mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-pretty">
-            It seems we can&apos;t find the page you&apos;re looking for. But
-            don&apos;t worry, there&apos;s plenty more beautiful furniture to
-            discover!
+            It seems we can&apos;t find the page you&apos;re looking for.
           </p>
         </div>
         <div className="mb-12">

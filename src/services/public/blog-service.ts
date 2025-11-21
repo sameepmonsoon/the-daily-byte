@@ -60,16 +60,19 @@ export const BlogService = {
       },error:null};
   },
 
-  getBySlug: async (slug: string) => {
-    const { data, error } = await supabase
-      .from("blogs")
-      .select("*")
-      .eq("slug", slug)
-      .single();
+getBlogBySlug : async (slug: string) => {
+  const { data, error } = await supabase
+    .from("blogs")
+    .select(`
+      *
+    `)
+    .eq("slug", slug)
+    .single()
 
-    if (error) throw new Error(error.message);
-    return data;
-  },
+  if (error) throw error
+  return data
+}
+,
 
   create: async (payload: {
     title: string;

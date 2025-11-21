@@ -30,7 +30,7 @@ export function AppSidebar({ serverSession, ...props }: AppSidebarProps) {
       <SidebarHeader className='dark:bg-gray-900 '>
         <SidebarMenu >
           <SidebarMenuItem>
-            <SidebarMenuButton asChild className='data-[slot=sidebar-menu-button]:p-1.5! rounded-sm!  hover:bg-gray-800'>
+            <SidebarMenuButton asChild className='data-[slot=sidebar-menu-button]:p-1.5! rounded-sm!  dark:hover:bg-gray-800'>
               <Link href={'/'} className='shrink-0 h-10 gap-2'>
                 <Image
                   src={`/favicon.ico`}

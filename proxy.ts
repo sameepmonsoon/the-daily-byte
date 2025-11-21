@@ -39,7 +39,6 @@ export const config = {
     "/sign-in",
     "/register",
     "/my-account/:path*",
-    "/verify-email",
-    "/verify-email",
+    "/dashboard/:path",
   ],
 };

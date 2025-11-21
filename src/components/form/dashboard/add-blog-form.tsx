@@ -17,6 +17,7 @@ import { BlogService, uploadBlogImage } from '@/services/public/blog-service';
 import { toast } from 'sonner';
 import { BLOG_FORM_FIELDS, blogCategories } from '@/constants/private/blog-constants';
 import { useSession } from 'next-auth/react';
+import { generateSlug } from '@/lib/utils';
 
 const RHFRichtextEditor = dynamic(() => import('@/components/rhf/rhf-rich-text'));
 
@@ -55,6 +56,7 @@ const session = useSession()
         authorid: data?.authorid,
         active: data.active,
         blogdetails: data?.blogDetails,
+        slug: data?.title ? generateSlug(data.title) : `blog-${Date.now()}`,
       };
 try {
     // const imageUrl = await uploadBlogImage({ payload: formData, userId:session?.data?.user?.id });

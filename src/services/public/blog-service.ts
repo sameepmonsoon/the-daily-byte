@@ -1,18 +1,63 @@
 import { supabase } from "@/lib/supabaseClient";
+import { v4 as uuidv4 } from 'uuid';
+
+interface UploadBlogImageProps {
+  payload: FormData;
+  multiple?: boolean;userId:string
+}
+
+export const uploadBlogImage = async ({ payload, multiple = false, userId }: UploadBlogImageProps) => {
+  const file = payload.get('file') as File;
+  const folder = payload.get('folder') as string;
+
+  if (!file) throw new Error('No file provided');
+
+  const filePath = userId + "/" + uuidv4();
+console.log({first:userId, uuid:uuidv4(),file})
+  // Upload to Supabase
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from('blog-images') 
+      .upload(filePath, file)
+    // .upload(filePath, file, { cacheControl: '3600', upsert: true });
+
+  if (uploadError) throw new Error(uploadError.message);
+
+  // Get public URL
+  const { data: urlData, } = supabase.storage
+    .from('blog-images')
+    .getPublicUrl(filePath);
+
+  if (!urlData) throw new Error('err');
+
+  return urlData.publicUrl;
+};
+
+
 
 export const BlogService = {
   list: async (page = 1, limit = 10) => {
     const from = (page - 1) * limit;
     const to = from + limit - 1;
 
-    const { data, error } = await supabase
+    const { data, error,count } = await supabase
       .from("blogs")
-      .select("*")
-      .order("created_at", { ascending: false })
+  .select("*", { count: "exact" })      .order("created_at", { ascending: false })
       .range(from, to);
 
     if (error) throw new Error(error.message);
-    return data;
+    
+    const total = count ?? 0
+    const totalPages = Math.ceil(total / limit)
+
+    return {data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1
+      },error:null};
   },
 
   getBySlug: async (slug: string) => {

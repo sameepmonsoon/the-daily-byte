@@ -58,8 +58,8 @@ export function NavMain({
                       'h-10 cursor-pointer rounded-sm! dark:hover:text-white! dark:hover:bg-gray-800',
                       { 'text-primary bg-custom-gray-4/10 hover:text-primary!': checkIsSubMenuActive(item.url) },
                       checkIsActive(item.url)
-                        ? 'text-primary bg-custom-gray-4/10 hover:text-primary! dark:text-white'
-                        : 'hover:bg-custom-gray-4/10!  hover:text-primary!'
+                        ? 'text-primary bg-custom-gray-4/10 hover:text-primary! dark:text-white dark:bg-white!'
+                        : 'hover:bg-custom-gray-4/10!  hover:text-primary! dark:text-white!'
                     )}
                   >
                     {item.icon && <item.icon />}
@@ -76,8 +76,8 @@ export function NavMain({
                           className={cn(
                             'group h-8 rounded-sm! dark:hover:text-white dark:hover:bg-gray-800',
                             checkIsActive(subItem.url)
-                              ? 'text-primary! bg-custom-gray-4/10 dark:hover:text-white'
-                              : 'hover:bg-custom-gray-4/10!  hover:text-primary'
+                              ? 'text-primary! bg-custom-gray-4/10 '
+                              : 'hover:bg-custom-gray-4/10!  hover:text-primary dark:hover:text-white'
                           )}
                         >
                           <Link href={subItem.url} className={cn('flex justify-start items-center')}>
@@ -95,9 +95,9 @@ export function NavMain({
               <SidebarMenuButton
                 tooltip={item.title}
                 className={cn(
-                  'h-10 cursor-pointer rounded-sm! dark:hover:bg-gray-800',
+                  'h-10 cursor-pointer rounded-sm! dark:hover:bg-gray-800 dark:text-white dark:hover:text-white',
                   checkIsActive(item.url)
-                    ? 'text-primary bg-custom-gray-4/10 hover:!text-primary! dark:text-white dark:hover:text-white'
+                    ? 'text-primary bg-custom-gray-4/10 hover:!text-primary! '
                     : 'hover:bg-custom-gray-4/10!  hover:text-primary'
                 )}
                 asChild

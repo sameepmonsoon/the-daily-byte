@@ -32,20 +32,20 @@ export const adminNavigation = {
 
     {
       title: 'Blogs',
-      url: '/blog',
+      url: '/dashboard/blog',
       icon: BookCopy,
       items: [
         {
           title: 'View All Blogs',
-          url: '/blog',
+          url: '/dashboard/blogs/list',
         },
 {
           title: 'Deleted Blog',
-          url: '/blog/deleted',
+          url: '/dashboard/blogs/deleted',
         },
         {
           title: 'Add Blog',
-          url: '/blog/add',
+          url: '/dashboard/blogs/add',
         },
       ],}
     ]
@@ -58,4 +58,15 @@ export function getSidebarNavigation(role: string) {
     default:
       return { navMain: [], navUsers: [] };
   }
+}
+
+
+/**
+ * Enum for file upload folders.
+ */
+export enum FILE_UPLOAD_FOLDERS {
+   /**
+   * Folder for product variant uploads.
+   */
+  BLOG = 'blogs',
 }

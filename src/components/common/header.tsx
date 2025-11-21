@@ -5,15 +5,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
-1;
-
 import CustomSelect from "./custom-select";
 import { menuData, searchOptions } from "@/data/navigation";
 import { Search, TrendingUp, User, UserRound } from "lucide-react";
 import { ThemeToggle } from "./buttons/theme-toggle-btn";
 import { useSession } from "next-auth/react";
-import { Button } from "../ui/button";
-import AccountMenu from "./buttons/account-menu-button";
 
 const Header = () => {
   const pathname = usePathname();

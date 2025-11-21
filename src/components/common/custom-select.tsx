@@ -52,11 +52,14 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options }) => {
   }, [isOpen]);
 
   return (
-    <div ref={dropdownRef} className="custom-select relative w-[200px]">
+    <div
+      ref={dropdownRef}
+      className="custom-select relative w-[200px] dark:bg-gray-900!"
+    >
       <div
         onClick={toggleDropdown}
         className={cn(
-          "select-selected cursor-pointer rounded-md rounded-r-none border bg-white px-3 py-2 whitespace-nowrap",
+          "select-selected text-primary cursor-pointer rounded-md rounded-r-none border bg-white px-3 py-2.5 text-sm whitespace-nowrap dark:border-white/30 dark:bg-gray-900 dark:text-white",
           isOpen && "select-arrow-active border-blue-500",
         )}
       >
@@ -66,7 +69,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options }) => {
       {isOpen && (
         <div
           className={cn(
-            "select-items absolute z-10 mt-1 w-full min-w-46 rounded-md border bg-white shadow-md",
+            "select-items text-primary absolute z-10 mt-1 w-full min-w-46 rounded-md border bg-white shadow-md dark:border-white/30 dark:bg-gray-900! dark:text-white",
           )}
         >
           {options.map((option, index) => (
@@ -74,8 +77,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options }) => {
               key={index}
               onClick={() => handleOptionClick(option)}
               className={cn(
-                "select-item cursor-pointer px-3 py-2 hover:bg-gray-100",
-                selectedOption?.value === option?.value && "bg-gray-200",
+                "select-item cursor-pointer px-3 py-2 hover:bg-gray-100 dark:hover:bg-white/10",
+                selectedOption?.value === option?.value &&
+                  "bg-gray-200 dark:bg-white/10",
               )}
             >
               {option.label}

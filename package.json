@@ -65,11 +65,10 @@
     "typescript": "^5"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "prettier --write",
-      "eslint"
-    ]
-  },
+  "*.{ts,tsx,js,jsx}": ["prettier --write", "eslint"],
+  "*.{json,md,css}": ["prettier --write"]
+}
+,
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

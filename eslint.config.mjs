@@ -7,11 +7,7 @@ export default defineConfig([
   ...nextTs,
 
   {
-    plugins: [
-      "import",
-      "simple-import-sort",
-      "unused-imports",
-    ],
+    plugins: ["import", "simple-import-sort", "unused-imports"],
 
     rules: {
       // Remove unused imports automatically
@@ -26,8 +22,8 @@ export default defineConfig([
         "error",
         {
           "newlines-between": "always",
-          "alphabetize": { order: "asc", caseInsensitive: true }
-        }
+          alphabetize: { order: "asc", caseInsensitive: true },
+        },
       ],
     },
 
@@ -35,10 +31,5 @@ export default defineConfig([
     extends: ["prettier"],
   },
 
-  globalIgnores([
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
 ]);

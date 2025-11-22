@@ -184,7 +184,7 @@ html.dark .ck-toolbar .ck-button:hover {
 /* till here */
 
 .ck-content blockquote.side-quote::before {
-  content: '“';
+  content: "“";
   position: absolute;
   top: -37px;
   left: -10px;
@@ -228,7 +228,7 @@ html.dark .ck-toolbar .ck-button:hover {
 }
 
 .ck-content pre.fancy-code::before {
-  content: '';
+  content: "";
   display: block;
   height: 13px;
   margin-bottom: 8px;
@@ -305,7 +305,9 @@ html.dark .ck-toolbar .ck-button:hover {
 
   /* -- Overrides the default .ck-splitbutton class colors. ----------------------------------- */
 
-  --ck-color-split-button-hover-background: var(--ck-color-button-default-hover-background);
+  --ck-color-split-button-hover-background: var(
+    --ck-color-button-default-hover-background
+  );
   --ck-color-split-button-hover-border: var(--ck-custom-foreground);
 
   /* -- Overrides the default .ck-input class colors. ----------------------------------------- */

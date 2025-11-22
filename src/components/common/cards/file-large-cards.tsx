@@ -1,11 +1,11 @@
-import { X } from 'lucide-react';
-import Image from 'next/image';
+import { X } from "lucide-react";
+import Image from "next/image";
 
 // import { formatBytes } from "@/lib/utils";
 // import { Progress } from "@/components/ui/progress";
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
-import { isFileWithPreview } from '@/components/common/file-uploader/file-uploader-horizontal';
+import { isFileWithPreview } from "@/components/common/file-uploader/file-uploader-horizontal";
 
 interface FileCardProps {
   file: File;
@@ -13,31 +13,34 @@ interface FileCardProps {
   progress?: number;
 }
 
-export function FileCardLarge({ file, /* progress, */ onRemove }: FileCardProps) {
+export function FileCardLarge({
+  file,
+  /* progress, */ onRemove,
+}: FileCardProps) {
   return (
-    <div className='relative flex items-center space-x-4'>
-      <div className='h-full aspect-square space-x-4 relative'>
+    <div className="relative flex items-center space-x-4">
+      <div className="relative aspect-square h-full space-x-4">
         {isFileWithPreview(file) ? (
           <Image
             src={file.preview}
             alt={file.name}
-            loading='lazy'
+            loading="lazy"
             fill={true}
-            className='shrink-0 rounded-md object-cover'
+            className="shrink-0 rounded-md object-cover"
           />
         ) : null}
 
         {onRemove && (
-          <div className='flex items-center gap-2 absolute right-1 top-1'>
+          <div className="absolute top-1 right-1 flex items-center gap-2">
             <Button
-              type='button'
-              variant='outline'
-              size='icon'
-              className='size-6 rounded-full text-red-600'
+              type="button"
+              variant="outline"
+              size="icon"
+              className="size-6 rounded-full text-red-600"
               onClick={onRemove}
             >
-              <X className='size-4 ' aria-hidden='true' />
-              <span className='sr-only'>Remove file</span>
+              <X className="size-4" aria-hidden="true" />
+              <span className="sr-only">Remove file</span>
             </Button>
           </div>
         )}

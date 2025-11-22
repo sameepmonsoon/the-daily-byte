@@ -1,14 +1,17 @@
-'use client';
-import { UploadIcon } from 'lucide-react';
-import * as React from 'react';
-import Dropzone, { type DropzoneProps, type FileRejection } from 'react-dropzone';
-import { toast } from 'sonner';
+"use client";
+import { UploadIcon } from "lucide-react";
+import * as React from "react";
+import Dropzone, {
+  type DropzoneProps,
+  type FileRejection,
+} from "react-dropzone";
+import { toast } from "sonner";
 
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { useControllableState } from '@/hooks/common/use-uncontrollable-state';
-import { cn, formatBytes } from '@/lib/utils';
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useControllableState } from "@/hooks/common/use-uncontrollable-state";
+import { cn, formatBytes } from "@/lib/utils";
 
-import { FileCardLarge } from '@/components/common/cards/file-large-cards';
+import { FileCardLarge } from "@/components/common/cards/file-large-cards";
 
 interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -52,7 +55,7 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
    * ```
    * @example accept={["image/png", "image/jpeg"]}
    */
-  accept?: DropzoneProps['accept'];
+  accept?: DropzoneProps["accept"];
 
   /**
    * Maximum file size for the uploader.
@@ -60,7 +63,7 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
    * @default 1024 * 1024 * 2 // 2MB
    * @example maxSize={1024 * 1024 * 2} // 2MB
    */
-  maxSize?: DropzoneProps['maxSize'];
+  maxSize?: DropzoneProps["maxSize"];
 
   /**
    * Maximum number of files for the uploader.
@@ -68,7 +71,7 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
    * @default 1
    * @example maxFiles={5}
    */
-  maxFiles?: DropzoneProps['maxFiles'];
+  maxFiles?: DropzoneProps["maxFiles"];
 
   /**
    * Whether the uploader should accept multiple files.
@@ -93,7 +96,7 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
     onValueChange,
     onUpload,
     progresses,
-    accept = { 'image/*': [] },
+    accept = { "image/*": [] },
     maxSize = 1 * 1024 * 1024,
     maxFiles = 1,
     multiple = false,
@@ -110,7 +113,7 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
   const onDrop = React.useCallback(
     (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
       if (!multiple && maxFiles === 1 && acceptedFiles.length > 1) {
-        toast.error('Cannot upload more than 1 file at a time');
+        toast.error("Cannot upload more than 1 file at a time");
         return;
       }
 
@@ -119,10 +122,10 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
         return;
       }
 
-      const newFiles = acceptedFiles.map(file =>
+      const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       );
 
       const updatedFiles = files ? [...files, ...newFiles] : newFiles;
@@ -133,16 +136,21 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
         rejectedFiles.forEach(({ file, errors }) => {
           // console.log({ file, errors });
           // toast.error(`File ${file.name} was rejected`);
-          errors.forEach(error => {
+          errors.forEach((error) => {
             toast.error(
-              `File ${file.name} was rejected. ${error.code === 'file-too-large' ? `File size greater than ${maxSize / (1024 * 1024)} MB` : error.message}`
+              `File ${file.name} was rejected. ${error.code === "file-too-large" ? `File size greater than ${maxSize / (1024 * 1024)} MB` : error.message}`,
             );
           });
         });
       }
 
-      if (onUpload && updatedFiles.length > 0 && updatedFiles.length <= maxFiles) {
-        const target = updatedFiles.length > 0 ? `${updatedFiles.length} files` : 'file';
+      if (
+        onUpload &&
+        updatedFiles.length > 0 &&
+        updatedFiles.length <= maxFiles
+      ) {
+        const target =
+          updatedFiles.length > 0 ? `${updatedFiles.length} files` : "file";
 
         toast.promise(onUpload(updatedFiles), {
           loading: `Uploading ${target}...`,
@@ -155,7 +163,7 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
       }
     },
 
-    [files, maxFiles, multiple, onUpload, setFiles]
+    [files, maxFiles, multiple, onUpload, setFiles],
   );
 
   function onRemove(index: number) {
@@ -181,11 +189,11 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
   const isDisabled = disabled || (files?.length ?? 0) >= maxFiles;
 
   return (
-    <div className='w-full overflow-auto'>
-      <ScrollArea className='h-fit'>
-        <div className='flex gap-4 h-52 mb-3'>
+    <div className="w-full overflow-auto">
+      <ScrollArea className="h-fit">
+        <div className="mb-3 flex h-52 gap-4">
           {files?.length ? (
-            <div className='h-full flex gap-2'>
+            <div className="flex h-full gap-2">
               {files?.map((file, index) => (
                 <FileCardLarge
                   key={index}
@@ -209,35 +217,43 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
               <div
                 {...getRootProps()}
                 className={cn(
-                  'group relative grow min-w-fit grid cursor-pointer place-items-center rounded-lg border border-dashed border-muted-foreground/25 px-5 py-2.5 text-center transition hover:bg-muted/25 bg-border/10',
-                  'ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-                  isDragActive && 'border-muted-foreground/50',
-                  isDisabled && 'pointer-events-none opacity-60',
-                  className
+                  "group border-muted-foreground/25 hover:bg-muted/25 bg-border/10 relative grid min-w-fit grow cursor-pointer place-items-center rounded-lg border border-dashed px-5 py-2.5 text-center transition",
+                  "ring-offset-background focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                  isDragActive && "border-muted-foreground/50",
+                  isDisabled && "pointer-events-none opacity-60",
+                  className,
                 )}
                 {...dropzoneProps}
               >
                 <input {...getInputProps()} />
                 {isDragActive ? (
-                  <div className='flex flex-col items-center justify-center gap-4 sm:px-5'>
-                    <div className='rounded-full border border-dashed p-3'>
-                      <UploadIcon className='size-7 text-muted-foreground' aria-hidden='true' />
+                  <div className="flex flex-col items-center justify-center gap-4 sm:px-5">
+                    <div className="rounded-full border border-dashed p-3">
+                      <UploadIcon
+                        className="text-muted-foreground size-7"
+                        aria-hidden="true"
+                      />
                     </div>
-                    <p className='font-medium text-muted-foreground'>Drop the files here</p>
+                    <p className="text-muted-foreground font-medium">
+                      Drop the files here
+                    </p>
                   </div>
                 ) : (
-                  <div className='flex flex-col items-center justify-center gap-4 sm:px-5'>
-                    <div className='rounded-full border border-dashed p-3'>
-                      <UploadIcon className='size-7 text-muted-foreground' aria-hidden='true' />
+                  <div className="flex flex-col items-center justify-center gap-4 sm:px-5">
+                    <div className="rounded-full border border-dashed p-3">
+                      <UploadIcon
+                        className="text-muted-foreground size-7"
+                        aria-hidden="true"
+                      />
                     </div>
-                    <div className='space-y-px'>
-                      <p className='font-medium text-muted-foreground'>
+                    <div className="space-y-px">
+                      <p className="text-muted-foreground font-medium">
                         Drag {"'n'"} drop files here, or click to select files
                       </p>
-                      <p className='text-sm text-muted-foreground/70'>
+                      <p className="text-muted-foreground/70 text-sm">
                         You can upload
                         {maxFiles > 1
-                          ? ` ${maxFiles === Infinity ? 'multiple' : maxFiles}
+                          ? ` ${maxFiles === Infinity ? "multiple" : maxFiles}
                       files (up to ${formatBytes(maxSize)} each)`
                           : ` a file with ${formatBytes(maxSize)}`}
                       </p>
@@ -249,12 +265,14 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
           </Dropzone>
         </div>
 
-        <ScrollBar orientation='horizontal' />
+        <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </div>
   );
 }
 
-export function isFileWithPreview(file: File): file is File & { preview: string } {
-  return 'preview' in file && typeof file.preview === 'string';
+export function isFileWithPreview(
+  file: File,
+): file is File & { preview: string } {
+  return "preview" in file && typeof file.preview === "string";
 }

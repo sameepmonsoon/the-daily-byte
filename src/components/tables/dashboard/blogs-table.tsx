@@ -1,27 +1,61 @@
-'use client';
-import { useReactTable } from '@tanstack/react-table';
-import { getCoreRowModel, TableOptions } from '@tanstack/table-core';
-import { Edit, EyeIcon, Search, Trash2 } from 'lucide-react';
-import Link from 'next/link';
-import { useCallback, useMemo, useState } from 'react';
+"use client";
+import { useReactTable } from "@tanstack/react-table";
+import { getCoreRowModel, TableOptions } from "@tanstack/table-core";
+import { Edit, EyeIcon, Search, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { useCallback, useMemo, useState } from "react";
 
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-import { AdminBlogsColumns } from '../columns/blogs-table-columns';
-import { DataTableRender } from '../data-table/renderRow';
-import { ActionsDropdownMenu } from '@/components/common/actions-menu';
-import { AdminBlogs } from '@/types/dashboard/dashboard-types';
+import { AdminBlogsColumns } from "../columns/blogs-table-columns";
+import { DataTableRender } from "../data-table/renderRow";
+import { ActionsDropdownMenu } from "@/components/common/actions-menu";
+import { AdminBlogs } from "@/types/dashboard/dashboard-types";
+import ConfirmDeleteDialog from "@/components/common/dialogs/confirm-delete";
+import { BlogService } from "@/services/public/blog-service";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 function AdminBlogsTable({ blogs }: { blogs: AdminBlogs[] }) {
+  const [refreshKey, setRefreshKey] = useState<string | number>(0);
+
   const [isStatusUpdating, setIsStatusUpdating] = useState<boolean>(false);
+  const router = useRouter();
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    open: boolean;
+    id: string | undefined;
+    loading: boolean;
+  }>({
+    open: false,
+    id: undefined,
+    loading: false,
+  });
+
+  const resetDeleteConfirm = () => {
+    setDeleteConfirm({
+      open: false,
+      id: undefined,
+      loading: false,
+    });
+  };
 
   const actionsMenuItems = useCallback(
     (blog: AdminBlogs) => [
       {
         label: (
-          <Link prefetch={false} href={`/admin/blogs/${blog.slug}`} className='flex items-center'>
-            <EyeIcon className='w-3 h-3' />
+          <Link
+            prefetch={false}
+            href={`/admin/blogs/${blog.slug}`}
+            className="flex items-center"
+          >
+            <EyeIcon className="h-3 w-3" />
             <span>View Details</span>
           </Link>
         ),
@@ -29,8 +63,12 @@ function AdminBlogsTable({ blogs }: { blogs: AdminBlogs[] }) {
       },
       {
         label: (
-          <Link prefetch={false} href={`/admin/blogs/${blog.slug}/edit`} className='flex items-center'>
-            <Edit className='w-3 h-3 mr-2.5' />
+          <Link
+            prefetch={false}
+            href={`/admin/blogs/${blog.slug}/edit`}
+            className="flex items-center"
+          >
+            <Edit className="mr-2.5 h-3 w-3" />
             <span>Edit</span>
           </Link>
         ),
@@ -40,34 +78,38 @@ function AdminBlogsTable({ blogs }: { blogs: AdminBlogs[] }) {
       },
       {
         label: (
-          <div className='flex items-center'>
-            <Trash2 className='w-3 h-3 mr-2.5' />
+          <div className="flex items-center">
+            <Trash2 className="mr-2.5 h-3 w-3" />
             <span>Delete</span>
           </div>
         ),
         onClick: () => {
-          setIsStatusUpdating(false);
+          setDeleteConfirm({
+            open: true,
+            id: blog.id,
+            loading: false,
+          });
         },
       },
     ],
 
-    []
+    [],
   );
 
   const blogsColumnTable = useMemo(
     () => [
       ...AdminBlogsColumns,
       {
-        id: 'actions',
-        header: 'Actions',
+        id: "actions",
+        header: "Actions",
         cell: ({ row }) => {
-          const order = row.original;
+          const blog = row.original;
 
-          return <ActionsDropdownMenu menuItems={actionsMenuItems(order)} />;
+          return <ActionsDropdownMenu menuItems={actionsMenuItems(blog)} />;
         },
       },
     ],
-    [actionsMenuItems]
+    [actionsMenuItems],
   );
   const tableOptions: TableOptions<any> = {
     data: blogs || [],
@@ -76,48 +118,74 @@ function AdminBlogsTable({ blogs }: { blogs: AdminBlogs[] }) {
   };
 
   const table = useReactTable(tableOptions);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  async function deleteBlog(id: string | undefined) {
+    if (!id) return;
+    const response = await BlogService.delete(id);
+
+    if (response.success) {
+      toast.success(response.message);
+      resetDeleteConfirm();
+      router.refresh();
+      setRefreshKey(id);
+
+      // Optional: navigate to page 1 if needed
+      router.replace(`/dashboard/blogs/list?page=1`, { scroll: true });
+    } else {
+      toast.error(response?.message);
+    }
+  }
   return (
     <div>
-      <div className='flex flex-col sm:flex-row gap-4 mb-6'>
-        <div className='relative flex-1'>
-          <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row">
+        <div className="relative flex-1">
+          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
-            placeholder='Search by product...'
+            placeholder="Search by product..."
             value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            className='pl-9 h-12 dark:bg-gray-900! bg-white/70'
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="h-12 bg-white/70 pl-9 dark:bg-gray-900!"
           />
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className='w-full sm:w-[200px] !h-12 cursor-pointer dark:bg-gray-900! bg-white/70'>
-            <SelectValue placeholder='Filter by status' />
+          <SelectTrigger className="h-12! w-full cursor-pointer bg-white/70 sm:w-[200px] dark:bg-gray-900!">
+            <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
-          <SelectContent className='dark:bg-gray-900! bg-white dark:text-white'>
-            <SelectItem value='all' className='cursor-pointer'>
+          <SelectContent className="bg-white dark:bg-gray-900! dark:text-white">
+            <SelectItem value="all" className="cursor-pointer">
               All Category
             </SelectItem>
-            <SelectItem value='pending' className='cursor-pointer'>
+            <SelectItem value="pending" className="cursor-pointer">
               Electronics
             </SelectItem>
-            <SelectItem value='processing' className='cursor-pointer'>
+            <SelectItem value="processing" className="cursor-pointer">
               Wearables
             </SelectItem>
-            <SelectItem value='delivered' className='cursor-pointer'>
+            <SelectItem value="delivered" className="cursor-pointer">
               Accessories
             </SelectItem>
-            <SelectItem value='cancelled' className='cursor-pointer'>
+            <SelectItem value="cancelled" className="cursor-pointer">
               Furniture
             </SelectItem>
           </SelectContent>
         </Select>
       </div>
       <DataTableRender
+        key={JSON.stringify(blogs)}
         table={table}
         columns={blogsColumnTable}
         actionsMenuItems={actionsMenuItems}
         isTableContentUpdating={isStatusUpdating}
+      />
+
+      <ConfirmDeleteDialog
+        open={deleteConfirm.open}
+        loading={deleteConfirm.loading}
+        onReset={resetDeleteConfirm}
+        onDelete={() => deleteBlog(deleteConfirm.id)}
+        name={"this blog"}
       />
     </div>
   );

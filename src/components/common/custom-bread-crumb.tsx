@@ -1,7 +1,7 @@
-'use client';
-import { HomeIcon } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+"use client";
+import { HomeIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 import {
   Breadcrumb,
@@ -10,14 +10,14 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from "@/components/ui/breadcrumb";
 
 function capitalizeAndRemoveDashes(str: string): string {
-  if (!str) return '';
+  if (!str) return "";
   return str
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 interface BreadcrumbItem {
@@ -34,13 +34,15 @@ export function Breadcrumbs() {
     if (!pathname) return;
 
     // Split pathname into segments and remove empty strings
-    const segments = pathname.split('/').filter(Boolean);
+    const segments = pathname.split("/").filter(Boolean);
 
     // Generate array of breadcrumb items with proper links
     const breadcrumbItems = segments.map((segment, index) => {
-      const href = `/${segments.slice(0, index + 1).join('/')}`;
-      const isVariable = segment.startsWith('[') && segment.endsWith(']');
-      const label = isVariable ? capitalizeAndRemoveDashes(segment.slice(1, -1)) : capitalizeAndRemoveDashes(segment);
+      const href = `/${segments.slice(0, index + 1).join("/")}`;
+      const isVariable = segment.startsWith("[") && segment.endsWith("]");
+      const label = isVariable
+        ? capitalizeAndRemoveDashes(segment.slice(1, -1))
+        : capitalizeAndRemoveDashes(segment);
 
       return {
         href,
@@ -53,14 +55,14 @@ export function Breadcrumbs() {
   }, [pathname]);
 
   // Don't render anything on the homepage
-  if (!pathname || pathname === '/') return null;
+  if (!pathname || pathname === "/") return null;
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href='/' aria-label='Home'>
-            <HomeIcon className='h-4 w-4 dark:hover:text-white' />
+          <BreadcrumbLink href="/" aria-label="Home">
+            <HomeIcon className="h-4 w-4 dark:hover:text-white" />
           </BreadcrumbLink>
         </BreadcrumbItem>
 
@@ -71,11 +73,15 @@ export function Breadcrumbs() {
             <BreadcrumbItem>
               {breadcrumb.isCurrent ? (
                 <>
-                  <BreadcrumbPage className='dark:text-white'>{breadcrumb.label}</BreadcrumbPage>
+                  <BreadcrumbPage className="dark:text-white">
+                    {breadcrumb.label}
+                  </BreadcrumbPage>
                 </>
               ) : (
                 <>
-                  <Breadcrumb className='dark:text-white/70'>{breadcrumb.label}</Breadcrumb>
+                  <Breadcrumb className="dark:text-white/70">
+                    {breadcrumb.label}
+                  </Breadcrumb>
                 </>
               )}
             </BreadcrumbItem>

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { MoreHorizontal } from 'lucide-react';
-import React from 'react';
+import { MoreHorizontal } from "lucide-react";
+import React from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -11,7 +11,7 @@ import {
   ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from '@/components/ui/context-menu';
+} from "@/components/ui/context-menu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 export interface ActionsMenuItem {
   label: React.ReactNode;
@@ -42,11 +42,15 @@ function ActionsDropdownMenuItem({ item }: { item: ActionsMenuListItem }) {
   if (!item) {
     return <DropdownMenuSeparator />;
   }
-  if (typeof item === 'string') {
+  if (typeof item === "string") {
     return <DropdownMenuLabel>{item}</DropdownMenuLabel>;
   }
   return (
-    <DropdownMenuItem onClick={item.onClick} asChild={item.asChild} className='cursor-pointer'>
+    <DropdownMenuItem
+      onClick={item.onClick}
+      asChild={item.asChild}
+      className="cursor-pointer"
+    >
       {item.label}
     </DropdownMenuItem>
   );
@@ -54,9 +58,9 @@ function ActionsDropdownMenuItem({ item }: { item: ActionsMenuListItem }) {
 
 function DefaultDropdownTrigger() {
   return (
-    <Button variant='ghost' className='h-8 w-8 p-0'>
-      <span className='sr-only'>Open menu</span>
-      <MoreHorizontal className='h-4 w-4' />
+    <Button variant="ghost" className="h-8 w-8 p-0">
+      <span className="sr-only">Open menu</span>
+      <MoreHorizontal className="h-4 w-4" />
     </Button>
   );
 }
@@ -65,8 +69,10 @@ export function ActionsDropdownMenu({ menuItems, children }: ActionMenuProps) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>{children ? children : DefaultDropdownTrigger()}</DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
+        <DropdownMenuTrigger asChild>
+          {children ? children : DefaultDropdownTrigger()}
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
           {menuItems.map((item, ix) => (
             <ActionsDropdownMenuItem key={ix} item={item} />
           ))}
@@ -82,11 +88,15 @@ function ActionsContextMenuItem({ item }: { item: ActionsMenuListItem }) {
   if (!item) {
     return <ContextMenuSeparator />;
   }
-  if (typeof item === 'string') {
+  if (typeof item === "string") {
     return <ContextMenuLabel>{item}</ContextMenuLabel>;
   }
   return (
-    <ContextMenuItem onClick={item.onClick} asChild={item.asChild} className='cursor-pointer'>
+    <ContextMenuItem
+      onClick={item.onClick}
+      asChild={item.asChild}
+      className="cursor-pointer"
+    >
       {item.label}
     </ContextMenuItem>
   );

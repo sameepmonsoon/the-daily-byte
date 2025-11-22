@@ -1,19 +1,20 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export function updateURLParams(currentParams: URLSearchParams, newParams: Record<string, string>): string {
+export function updateURLParams(
+  currentParams: URLSearchParams,
+  newParams: Record<string, string>,
+): string {
   const updatedParams = new URLSearchParams(currentParams.toString());
   Object.entries(newParams).forEach(([key, value]) => {
     updatedParams.set(key, value);
   });
   return `?${updatedParams.toString()}`;
 }
-
-
 
 /**
  * Parses raw search parameters into strongly typed fetch options.
@@ -34,7 +35,9 @@ export function updateURLParams(currentParams: URLSearchParams, newParams: Recor
  * - maxPrice: number
  * - color: string
  */
-export function parseSearchParams(searchParams: { [key: string]: string | string[] | undefined }) {
+export function parseSearchParams(searchParams: {
+  [key: string]: string | string[] | undefined;
+}) {
   const { search, sort, page } = searchParams;
 
   const fetchOptions: {
@@ -44,7 +47,7 @@ export function parseSearchParams(searchParams: { [key: string]: string | string
     limit?: string;
     categoryId?: number;
     searchBy?: string | string[];
-    sortOrder?: 'ASC' | 'DESC';
+    sortOrder?: "ASC" | "DESC";
     sortBy?: string;
     minPrice?: number;
     maxPrice?: number;
@@ -65,8 +68,8 @@ export function parseSearchParams(searchParams: { [key: string]: string | string
 
   // sort in format: column.asc / column.desc
   if (sort) {
-    const [column, direction] = (sort as string).split('.');
-    fetchOptions.sort = { [column]: direction === 'asc' ? 1 : -1 };
+    const [column, direction] = (sort as string).split(".");
+    fetchOptions.sort = { [column]: direction === "asc" ? 1 : -1 };
   }
   // pagination
   if (searchParams.limit) {
@@ -76,35 +79,34 @@ export function parseSearchParams(searchParams: { [key: string]: string | string
   return fetchOptions;
 }
 
-
 export function formatBytes(
   bytes: number,
   opts: {
     decimals?: number;
-    sizeType?: 'accurate' | 'normal';
-  } = {}
+    sizeType?: "accurate" | "normal";
+  } = {},
 ) {
-  const { decimals = 0, sizeType = 'normal' } = opts;
+  const { decimals = 0, sizeType = "normal" } = opts;
 
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  const accurateSizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB'];
-  if (bytes === 0) return '0 Byte';
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  const accurateSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB"];
+  if (bytes === 0) return "0 Byte";
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${
-    sizeType === 'accurate' ? (accurateSizes[i] ?? 'Bytest') : (sizes[i] ?? 'Bytes')
+    sizeType === "accurate"
+      ? (accurateSizes[i] ?? "Bytest")
+      : (sizes[i] ?? "Bytes")
   }`;
 }
 
-
 export function generateSlug(title: string): string {
-  const timestamp = Date.now(); 
+  const timestamp = Date.now();
   return (
     title
       .toLowerCase()
       .trim()
-      .replace(/[^\w\s-]/g, "")  
-      .replace(/\s+/g, "-")  
-      .replace(/--+/g, "-") +  
-    `-${timestamp}`             
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/--+/g, "-") + `-${timestamp}`
   );
 }

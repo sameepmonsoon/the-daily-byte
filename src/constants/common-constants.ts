@@ -7,48 +7,49 @@ import { BookCopy, LayoutDashboard } from "lucide-react";
  * @enum {string}
  */
 export enum ROLE {
-  OWNER = 'OWNER',
+  OWNER = "OWNER",
 
-  EDITOR = 'EDITOR',
+  EDITOR = "EDITOR",
 
-  AUTHOR = 'AUTHOR',
+  AUTHOR = "AUTHOR",
 
-  MODERATOR = 'MODERATOR',
+  MODERATOR = "MODERATOR",
 
-  SEO_MANAGER = 'SEO_MANAGER',
+  SEO_MANAGER = "SEO_MANAGER",
 
-  SUBSCRIBER = 'SUBSCRIBER',
+  SUBSCRIBER = "SUBSCRIBER",
 
-  GUEST = 'GUEST',
+  GUEST = "GUEST",
 }
 
 export const adminNavigation = {
   navMain: [
     {
-      title: 'Dashboard',
-      url: '/dashboard',
+      title: "Dashboard",
+      url: "/dashboard",
       icon: LayoutDashboard,
     },
 
     {
-      title: 'Blogs',
-      url: '/dashboard/blog',
+      title: "Blogs",
+      url: "/dashboard/blog",
       icon: BookCopy,
       items: [
         {
-          title: 'View All Blogs',
-          url: '/dashboard/blogs/list',
-        },
-{
-          title: 'Deleted Blog',
-          url: '/dashboard/blogs/deleted',
+          title: "View All Blogs",
+          url: "/dashboard/blogs/list",
         },
         {
-          title: 'Add Blog',
-          url: '/dashboard/blogs/add',
+          title: "Deleted Blog",
+          url: "/dashboard/blogs/deleted",
         },
-      ],}
-    ]
+        {
+          title: "Add Blog",
+          url: "/dashboard/blogs/add",
+        },
+      ],
+    },
+  ],
 };
 
 export function getSidebarNavigation(role: string) {
@@ -60,13 +61,12 @@ export function getSidebarNavigation(role: string) {
   }
 }
 
-
 /**
  * Enum for file upload folders.
  */
 export enum FILE_UPLOAD_FOLDERS {
-   /**
+  /**
    * Folder for product variant uploads.
    */
-  BLOG = 'blogs',
+  BLOG = "blogs",
 }

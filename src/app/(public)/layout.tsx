@@ -1,5 +1,5 @@
-import { Footer } from '@/components/common/footer'
-import Header from '@/components/common/header'
+import { Footer } from "@/components/common/footer";
+import Header from "@/components/common/header";
 
 export default function PublicLayout({
   children,
@@ -7,10 +7,10 @@ export default function PublicLayout({
   children: React.ReactNode;
 }>) {
   return (
- <>
- <Header/>
- {children}
- <Footer/>
- </>
-  )
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
 }

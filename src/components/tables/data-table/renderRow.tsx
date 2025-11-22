@@ -1,20 +1,30 @@
-'use client';
+"use client";
 
-import { ColumnDef, flexRender, type Row } from '@tanstack/react-table';
-import { Table as TableType } from '@tanstack/table-core';
-import * as React from 'react';
+import { ColumnDef, flexRender, type Row } from "@tanstack/react-table";
+import { Table as TableType } from "@tanstack/table-core";
+import * as React from "react";
 
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-import { ActionsContextMenu, ActionsMenuItems } from '@/components/common/actions-menu';
-import FormLoader from '@/components/skeleton/form-loader';
+import {
+  ActionsContextMenu,
+  ActionsMenuItems,
+} from "@/components/common/actions-menu";
+import FormLoader from "@/components/skeleton/form-loader";
 
 export const EmptyDataTable = ({ colLength }: { colLength: number }) => {
   return (
     <>
       <TableRow>
-        <TableCell colSpan={colLength} className='h-24 text-center'>
+        <TableCell colSpan={colLength} className="h-24 text-center">
           No results.
         </TableCell>
       </TableRow>
@@ -24,9 +34,11 @@ export const EmptyDataTable = ({ colLength }: { colLength: number }) => {
 
 export function defaultRenderRow<TData>(row: Row<TData>) {
   return (
-    <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-      {row.getVisibleCells().map(cell => (
-        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+      {row.getVisibleCells().map((cell) => (
+        <TableCell key={cell.id}>
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </TableCell>
       ))}
     </TableRow>
   );
@@ -53,7 +65,11 @@ export function DataTableRender<TData, TValue>({
         return (
           <ActionsContextMenu
             key={row.id}
-            menuItems={typeof actionsMenuItems === 'function' ? actionsMenuItems(row.original) : actionsMenuItems}
+            menuItems={
+              typeof actionsMenuItems === "function"
+                ? actionsMenuItems(row.original)
+                : actionsMenuItems
+            }
           >
             {defaultRenderRow(row)}
           </ActionsContextMenu>
@@ -62,16 +78,21 @@ export function DataTableRender<TData, TValue>({
     : defaultRenderRow;
 
   return (
-    <ScrollArea className='rounded-lg border bg-white dark:bg-gray-900'>
+    <ScrollArea className="rounded-lg border bg-white dark:bg-gray-900">
       {isTableContentUpdating && <FormLoader />}
-      <Table className='relative'>
+      <Table className="relative">
         <TableHeader>
-          {table.getHeaderGroups().map(headerGroup => (
-            <TableRow key={headerGroup.id} >
-              {headerGroup.headers.map(header => {
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className='dark:text-white'>
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  <TableHead key={header.id} className="dark:text-white">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 );
               })}
@@ -85,7 +106,7 @@ export function DataTableRender<TData, TValue>({
         </TableBody>
       </Table>
 
-      <ScrollBar orientation='horizontal' />
+      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );
 }

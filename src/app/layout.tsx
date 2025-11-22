@@ -43,8 +43,8 @@ export default function RootLayout({
           <ReactQueryProvider>
             <NextAuthProvider>
               <Toaster richColors visibleToasts={3} />
-                           {children}
-                        </NextAuthProvider>
+              {children}
+            </NextAuthProvider>
           </ReactQueryProvider>
           {/* </NuqsAdapter> */}
         </ThemeProvider>

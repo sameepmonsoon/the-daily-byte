@@ -1,10 +1,15 @@
-import { cva } from 'class-variance-authority';
-import { FieldValues, Path, useFormContext } from 'react-hook-form';
+import { cva } from "class-variance-authority";
+import { FieldValues, Path, useFormContext } from "react-hook-form";
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { cn } from '@/lib/utils';
-import { FileUploaderHorizontal } from '../common/file-uploader/file-uploader-horizontal';
-
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { cn } from "@/lib/utils";
+import { FileUploaderHorizontal } from "../common/file-uploader/file-uploader-horizontal";
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
@@ -14,20 +19,20 @@ type Props<T extends FieldValues> = {
   className?: string;
   required?: boolean;
   disabled?: boolean;
-  variant?: 'default' | 'formGroup' | 'single';
+  variant?: "default" | "formGroup" | "single";
   maxSize?: number;
 };
 
-const inputFieldVariants = cva('form-group', {
+const inputFieldVariants = cva("form-group", {
   variants: {
     variant: {
-      default: 'w-full',
-      formGroup: 'lg:w-[calc(50%-10px)] w-full',
-      single: 'w-full',
+      default: "w-full",
+      formGroup: "lg:w-[calc(50%-10px)] w-full",
+      single: "w-full",
     },
   },
   defaultVariants: {
-    variant: 'default',
+    variant: "default",
   },
 });
 
@@ -51,9 +56,9 @@ export default function RHFFileInput<T extends FieldValues>({
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className='text-base font-medium !text-black'>
+            <FormLabel className="text-base font-medium !text-black">
               {formLabel}
-              {required && <span className='text-red-500'>*</span>}
+              {required && <span className="text-red-500">*</span>}
             </FormLabel>
             <FormControl>
               <FileUploaderHorizontal

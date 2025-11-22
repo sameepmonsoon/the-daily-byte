@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function MyAccountPage() {
-  return (
-    <div className=''>MyAccountPage</div>
-  )
+  return <div className="">MyAccountPage</div>;
 }
 
-export default MyAccountPage
+export default MyAccountPage;

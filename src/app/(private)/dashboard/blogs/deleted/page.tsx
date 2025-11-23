@@ -1,0 +1,36 @@
+import PaginationComponent from "@/components/common/pagination";
+import AdminBlogsTable from "@/components/tables/dashboard/blogs-table";
+import DeletedBlogsTable from "@/components/tables/dashboard/deleted-blogs-table ";
+import { parseSearchParams } from "@/lib/utils";
+import { BlogService } from "@/services/public/blog-service";
+interface SearchParamType {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+export default async function DeletedBlogsListPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const params = await searchParams;
+  const fetchOptions = parseSearchParams({
+    ...params,
+  });
+  const { data, meta, error } = await BlogService.listDeleted(
+    Number(fetchOptions?.page ?? 1),
+  );
+  if (error || !data) {
+    return <>Something went wrong!</>;
+  }
+  return (
+    <div>
+      <DeletedBlogsTable key={fetchOptions?.page} blogs={data} />
+      <div className="mt-8 flex flex-1 items-center justify-between">
+        <PaginationComponent
+          currentPage={fetchOptions.page ? parseInt(fetchOptions.page) : 1}
+          totalPages={meta?.totalPages ?? 0}
+          className="flex-1 justify-start md:justify-center"
+        />
+      </div>
+    </div>
+  );
+}

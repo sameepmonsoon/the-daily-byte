@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { cva } from "class-variance-authority";
 import { FieldValues, Path, useFormContext } from "react-hook-form";
 
@@ -68,7 +68,7 @@ export default function RHFSelect<T extends FieldValues>({
       render={({ field }) => {
         return (
           <FormItem className={cn(inputFieldVariants({ variant, className }))}>
-            <FormLabel className="text-base font-medium !text-black">
+            <FormLabel className="text-base font-medium !text-black dark:text-white!">
               <span>
                 {formLabel}
                 {required && <span className="text-red-500">*</span>}

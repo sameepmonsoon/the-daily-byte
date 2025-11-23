@@ -2,8 +2,8 @@ export interface Menu {
   id: number;
   title: string;
   path: string;
-  newTab?: boolean;     
-  submenu?: Menu[];      
+  newTab?: boolean;
+  submenu?: Menu[];
 }
 
 export interface SearchOption {

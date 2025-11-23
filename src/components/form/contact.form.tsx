@@ -27,7 +27,6 @@ function ContactForm() {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("✅ Submitted Account Details:", data);
     } catch (error) {
       console.error("Error updating account:", error);
     } finally {

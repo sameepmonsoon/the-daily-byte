@@ -26,9 +26,11 @@ import {
 } from "@/schema/private/auth/login.schema";
 import SubmitFormButton from "../common/buttons/submit-button";
 import GoogleButton from "../common/buttons/google-button";
+import { useState } from "react";
 
 export default function SignInForm() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<SignInFormDataType>({
     resolver: zodResolver(signInSchema),
     defaultValues: { email: "", password: "" },
@@ -40,6 +42,7 @@ export default function SignInForm() {
     formState: { isSubmitting },
   } = form;
   async function loginUser(data: SignInFormDataType) {
+    setIsLoading(true);
     const response = await signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -52,6 +55,7 @@ export default function SignInForm() {
     } else {
       toast.error(response?.error ?? "Invalid Email or Password!");
     }
+    setIsLoading(false);
   }
 
   return (
@@ -103,11 +107,10 @@ export default function SignInForm() {
                     Forgot password?
                   </Link>
                 </div>
-
                 <SubmitFormButton
                   className="mt-5"
                   btnText={"Sign In"}
-                  isSubmitting={isSubmitting}
+                  isSubmitting={isSubmitting || isLoading}
                   submittingText="Signing in..."
                   showArrow
                 />

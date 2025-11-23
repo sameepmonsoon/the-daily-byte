@@ -1,20 +1,19 @@
 import { SanitizedHTML } from "@/components/common/sanitized-html";
+import BlogOverViewSkeleton from "@/components/skeleton/blog-overview-loader";
 import { Button } from "@/components/ui/button";
 import { BlogService } from "@/services/public/blog-service";
 import { format } from "date-fns";
 import { Pencil } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 interface BlogsPageProps {
-  params: {
-    slug: string;
-  };
+  slug: string;
 }
 
-export default async function BlogsPage({ params }: BlogsPageProps) {
-  const searchparam = await params;
-  const { data: blog } = await BlogService.getBlogBySlug(searchparam.slug);
+async function BlogDetail({ slug }: BlogsPageProps) {
+  const { data: blog } = await BlogService.getBlogBySlug(slug);
   return (
     <div className="w-full space-y-8 lg:max-w-[750px]">
       {/* DATE */}
@@ -54,5 +53,19 @@ export default async function BlogsPage({ params }: BlogsPageProps) {
       {/* BLOG CONTENT */}
       <SanitizedHTML html={blog.blogdetails} />
     </div>
+  );
+}
+
+export default async function BlogDetailPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const searchparam = await params;
+
+  return (
+    <Suspense fallback={<BlogOverViewSkeleton />}>
+      <BlogDetail slug={searchparam?.slug} />
+    </Suspense>
   );
 }

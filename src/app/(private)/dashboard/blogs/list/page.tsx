@@ -1,12 +1,14 @@
 import PaginationComponent from "@/components/common/pagination";
+import TableLoaderPage from "@/components/skeleton/table-loader";
 import AdminBlogsTable from "@/components/tables/dashboard/blogs-table";
 import { parseSearchParams } from "@/lib/utils";
 import { BlogService } from "@/services/public/blog-service";
 import { AdminBlogs } from "@/types/dashboard/dashboard-types";
+import { Suspense } from "react";
 interface SearchParamType {
   searchParams: { [key: string]: string | string[] | undefined };
 }
-export default async function BlogsListPage({ searchParams }: SearchParamType) {
+async function BlogsList({ searchParams }: SearchParamType) {
   const params = await searchParams;
   const fetchOptions = parseSearchParams({
     ...params,
@@ -26,5 +28,17 @@ export default async function BlogsListPage({ searchParams }: SearchParamType) {
         />
       </div>
     </div>
+  );
+}
+
+export default function AllBlogsPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  return (
+    <Suspense fallback={<TableLoaderPage />}>
+      <BlogsList searchParams={searchParams} />
+    </Suspense>
   );
 }

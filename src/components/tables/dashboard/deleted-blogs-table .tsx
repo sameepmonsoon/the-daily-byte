@@ -4,14 +4,6 @@ import { getCoreRowModel, TableOptions } from "@tanstack/table-core";
 import { ArchiveRestore } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { AdminBlogsColumns } from "../columns/blogs-table-columns";
 import { DataTableRender } from "../data-table/renderRow";
 import { ActionsDropdownMenu } from "@/components/common/actions-menu";
@@ -102,30 +94,6 @@ function DeletedBlogsTable({ blogs }: { blogs: AdminBlogs[] }) {
   }
   return (
     <div>
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row">
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="h-12! w-full cursor-pointer bg-white/70 sm:w-[200px] dark:bg-gray-900!">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent className="bg-white dark:bg-gray-900! dark:text-white">
-            <SelectItem value="all" className="cursor-pointer">
-              All Category
-            </SelectItem>
-            <SelectItem value="pending" className="cursor-pointer">
-              Electronics
-            </SelectItem>
-            <SelectItem value="processing" className="cursor-pointer">
-              Wearables
-            </SelectItem>
-            <SelectItem value="delivered" className="cursor-pointer">
-              Accessories
-            </SelectItem>
-            <SelectItem value="cancelled" className="cursor-pointer">
-              Furniture
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
       <DataTableRender
         key={JSON.stringify(blogs)}
         table={table}

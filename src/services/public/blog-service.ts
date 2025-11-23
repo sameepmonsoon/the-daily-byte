@@ -6,12 +6,11 @@ import {
 } from "@/types/dashboard/dashboard-types";
 import { PaginatedResponse, ApiResponse } from "@/types/common";
 import { v4 as uuidv4 } from "uuid";
-import Categories from "@/components/home/categories";
 
 interface UploadBlogImageProps {
   payload: FormData;
   multiple?: boolean;
-  userId: string;
+  userId?: string;
 }
 
 export const uploadBlogImage = async ({

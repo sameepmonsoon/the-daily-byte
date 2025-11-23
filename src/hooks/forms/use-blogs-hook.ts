@@ -5,7 +5,7 @@ import {
   blogSchema,
   BlogSchemaType,
 } from "@/schema/private/blog.schema";
-import { BlogService } from "@/services/public/blog-service";
+import { BlogService, uploadBlogImage } from "@/services/public/blog-service";
 import { BlogPayload } from "@/types/dashboard/dashboard-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
@@ -40,178 +40,62 @@ export function useBlogForm({
             categoryId: String(existingData?.categoryId),
             category: String(existingData?.category),
             authorid: existingData?.authorid,
-            // featuredImage: [existingData?.coverImage],
             active: existingData?.active,
             blogDetails: existingData?.blogDetails,
           },
   });
 
   const blogAction = async (data: BlogSchemaType) => {
-    if (type === "create" && data.form_type === "create") {
-      const payload: BlogPayload = {
-        title: data?.title,
-        description: data?.description,
-        category_id: data?.category,
-        category: data?.category,
-        authorid: data?.authorid,
-        active: data.active,
-        blogdetails: data?.blogDetails,
-        slug: data?.title ? generateSlug(data.title) : `blog-${Date.now()}`,
-        created_by: session?.data?.user?.id ?? "User_0",
-        coverimage:
-          "https://cdnugybsittcrtgflnwq.supabase.co/storage/v1/object/public/blog-images/urban-vintage-78A265wPiO4-unsplash.jpg",
-      };
-      try {
-        // const imageUrl = await uploadBlogImage({ payload: formData, userId:session?.data?.user?.id });
-        // console.log('Uploaded image URL:', imageUrl);
+    const payload: BlogPayload = {
+      title: data.title,
+      description: data.description,
+      category_id: data.category,
+      category: data.category,
+      authorid: data.authorid,
+      active: data.active,
+      blogdetails: data.blogDetails,
+      slug: data.title ? generateSlug(data.title) : `blog-${Date.now()}`,
+      created_by: session?.data?.user?.id ?? "User_0",
+    };
 
-        // Pass to your create blog service
-        const newBlog = await BlogService.create({
-          ...payload,
+    try {
+      let imageUrl: string | null = null;
+
+      // Upload image if provided
+      if (data.featuredImage?.length) {
+        const formData = new FormData();
+        formData.append("file", data.featuredImage[0]);
+        formData.append("userId", session?.data?.user?.id ?? "12");
+        const uploaded = await uploadBlogImage({
+          payload: formData,
+          userId: session?.data?.user?.id,
         });
-        if (newBlog?.success) {
-          toast.success(newBlog?.message ?? "Blog added successfully!");
-          router.replace(`/dashboard/blogs/list`);
-        }
-        if (!newBlog?.success) throw Error(newBlog.message);
-      } catch (err) {
-        console.error(err);
-        toast.error("Failed to add blog.");
+        imageUrl =
+          uploaded?.data ??
+          "https://cdnugybsittcrtgflnwq.supabase.co/storage/v1/object/public/blog-images/urban-vintage-78A265wPiO4-unsplash.jpg";
       }
 
-      // try {
-      //   if (data.featuredImage) {
-      //     const formData = new FormData();
-      //     formData.append("file", data.featuredImage[0]);
-      //     formData.append("folder", FILE_UPLOAD_FOLDERS.BLOG);
-      //     formData.append("userId", session?.data?.user?.id ?? "12");
-      //     console.log({ userId: session.data?.user.id });
-      //     try {
-      //       const imageUrl = await uploadBlogImage({
-      //         payload: formData,
-      //         userId: session?.data?.user?.id ?? "",
-      //       });
-      //       console.log("Uploaded image URL:", imageUrl);
-
-      //       // Pass to your create blog service
-      //       const newBlog = await BlogService.create({
-      //         ...payload,
-      //         coverImage:
-      //           "https://cdnugybsittcrtgflnwq.supabase.co/storage/v1/object/public/blog-images/urban-vintage-78A265wPiO4-unsplash.jpg",
-      //         created_by: session?.data?.user?.id ?? "User_0",
-      //       });
-
-      //       console.log("Blog created:", newBlog);
-      //     } catch (err) {
-      //       console.error(err);
-      //     }
-      //   }
-
-      //   // const response = await createEvent(payload);
-
-      //   // if (response.success) {
-      //   //   showSuccessToast(response.message);
-      //   //   setNewlyCreatedEvent({
-      //   //     id: response.data.data.id,
-      //   //     name: response.data.data.name,
-      //   //   });
-      //   //   setSavedStepsRecord(savedRecord => ({
-      //   //     ...savedRecord,
-      //   //     createEvent: true,
-      //   //   }));
-      //   // } else {
-      //   //   throw response;
-      //   // }
-      // } catch (error) {
-      //   const err = error;
-
-      //   toast.error("err");
-      // }
-    }
-
-    if (type === "update" && data.form_type === "update") {
-      const payload: BlogPayload = {
-        title: data?.title,
-        description: data?.description,
-        category_id: data?.category,
-        category: data?.category,
-        authorid: data?.authorid,
-        active: data.active,
-        blogdetails: data?.blogDetails,
-        slug: data?.title ? generateSlug(data.title) : `blog-${Date.now()}`,
-        created_by: session?.data?.user?.id ?? "User_0",
-        coverimage:
-          "https://cdnugybsittcrtgflnwq.supabase.co/storage/v1/object/public/blog-images/urban-vintage-78A265wPiO4-unsplash.jpg",
-      };
-      try {
-        // const imageUrl = await uploadBlogImage({ payload: formData, userId:session?.data?.user?.id });
-        // console.log('Uploaded image URL:', imageUrl);
-
-        // Pass to your create blog service
-        const newBlog = await BlogService.update(
-          {
-            ...payload,
-          },
-          id,
-        );
-        if (newBlog?.success) {
-          toast.success(newBlog?.message ?? "Blog updated successfully!");
-          router.replace(`/dashboard/blogs/list`);
-        }
-        if (!newBlog?.success) throw Error(newBlog.message);
-      } catch (err) {
-        console.error(err);
-        toast.error("Failed to update blog.");
+      // Only include coverimage if image was uploaded
+      if (imageUrl) {
+        payload.coverimage = imageUrl;
       }
 
-      // try {
-      //   if (data.featuredImage) {
-      //     const formData = new FormData();
-      //     formData.append("file", data.featuredImage[0]);
-      //     formData.append("folder", FILE_UPLOAD_FOLDERS.BLOG);
-      //     formData.append("userId", session?.data?.user?.id ?? "12");
-      //     console.log({ userId: session.data?.user.id });
-      //     try {
-      //       const imageUrl = await uploadBlogImage({
-      //         payload: formData,
-      //         userId: session?.data?.user?.id ?? "",
-      //       });
-      //       console.log("Uploaded image URL:", imageUrl);
+      let result;
+      if (type === "create" && data.form_type === "create") {
+        result = await BlogService.create(payload);
+      } else if (type === "update" && data.form_type === "update" && id) {
+        result = await BlogService.update(payload, id);
+      }
 
-      //       // Pass to your create blog service
-      //       const newBlog = await BlogService.create({
-      //         ...payload,
-      //         coverImage:
-      //           "https://cdnugybsittcrtgflnwq.supabase.co/storage/v1/object/public/blog-images/urban-vintage-78A265wPiO4-unsplash.jpg",
-      //         created_by: session?.data?.user?.id ?? "User_0",
-      //       });
-
-      //       console.log("Blog created:", newBlog);
-      //     } catch (err) {
-      //       console.error(err);
-      //     }
-      //   }
-
-      //   // const response = await createEvent(payload);
-
-      //   // if (response.success) {
-      //   //   showSuccessToast(response.message);
-      //   //   setNewlyCreatedEvent({
-      //   //     id: response.data.data.id,
-      //   //     name: response.data.data.name,
-      //   //   });
-      //   //   setSavedStepsRecord(savedRecord => ({
-      //   //     ...savedRecord,
-      //   //     createEvent: true,
-      //   //   }));
-      //   // } else {
-      //   //   throw response;
-      //   // }
-      // } catch (error) {
-      //   const err = error;
-
-      //   toast.error("err");
-      // }
+      if (result?.success) {
+        toast.success(result.message ?? `Blog ${type}d successfully!`);
+        router.replace(`/dashboard/blogs/list`);
+      } else {
+        throw new Error(result?.message);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(`Failed to ${type} blog.`);
     }
   };
 

@@ -51,23 +51,23 @@ export function Footer() {
           {/* Product Links */}
           <div className="space-y-4">
             <h4 className="text-primary font-semibold dark:text-white">
-              Product
+              Quick Links
             </h4>
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/pricing"
+                  href="/blogs/categories/6"
                   className="text-muted-foreground hover:text-primary text-sm transition-colors dark:text-white/70 dark:hover:text-white"
                 >
-                  Popular
+                  Food & Recipes{" "}
                 </Link>
-              </li>{" "}
+              </li>
               <li>
                 <Link
-                  href="/features"
+                  href="/blogs/categories/1"
                   className="text-muted-foreground hover:text-primary text-sm transition-colors dark:text-white/70 dark:hover:text-white"
                 >
-                  Categories
+                  Technology
                 </Link>
               </li>
               <li>
@@ -134,7 +134,7 @@ export function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="border-border placeholder-muted-foreground flex-1 rounded-sm border bg-gray-100 px-3 py-2 text-sm focus:ring-1 focus:ring-green-900! focus:outline-none"
+                className="border-border placeholder-muted-foreground flex-1 rounded-sm border bg-gray-100 px-3 py-2 text-sm focus:ring-1 focus:ring-blue-900! focus:outline-none"
               />
               <button
                 type="submit"

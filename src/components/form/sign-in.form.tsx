@@ -46,7 +46,6 @@ export default function SignInForm() {
       redirect: false,
       callbackUrl: "/",
     });
-    console.log({ response });
     if (response?.error === null) {
       toast.success("Login Success");
       router.replace(callbackUrl);

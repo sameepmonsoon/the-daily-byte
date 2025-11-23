@@ -1,9 +1,9 @@
 export function capitalizeAndRemoveDashes(str: string): string {
-  if (!str) return '';
+  if (!str) return "";
   return str
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 // password strength helper

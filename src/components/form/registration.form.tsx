@@ -58,7 +58,7 @@ export default function RegistrationForm() {
     "bg-orange-500",
     "bg-yellow-500",
     "bg-blue-500",
-    "bg-green-500",
+    "bg-blue-500",
   ];
   const router = useRouter();
   const handleRegistration = async (data: SignUpFormDataType) => {
@@ -68,18 +68,11 @@ export default function RegistrationForm() {
       firstName: data.firstName,
       lastName: data.lastName,
     };
-    // console.log({ payload });
     const { data: signUpData, error } = await AuthService.signup(payload);
-    console.log({ signUpData });
     if (error) throw toast.error(error?.message);
 
     toast.success("Signup successful! Please check your email to confirm.");
-
-    const res = await signIn("credentials", {
-      redirect: false,
-      email: data.email,
-      password: data.password,
-    });
+    router.push("/sign-in");
   };
   return (
     <Form {...form}>

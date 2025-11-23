@@ -2,19 +2,15 @@
 
 import React from "react";
 import {
-  ChevronLeft,
-  ChevronRight,
-  Tag,
-  Truck,
-  RefreshCcw,
-  Shield,
-  Headphones,
-  Heart,
-  Star,
-  Box,
-  Gift,
-  Globe,
+  Laptop,
+  HeartPulse,
+  Briefcase,
+  Plane,
+  Utensils,
+  GraduationCap,
+  Coffee,
 } from "lucide-react";
+
 import {
   Carousel,
   CarouselContent,
@@ -23,38 +19,52 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Card, CardContent } from "../ui/card";
+import Link from "next/link";
 
 // Type for a single category
 export interface Category {
   title: string;
-  icon: React.ReactNode; // Lucide icon
+  icon: React.ReactNode;
+  href: string;
 }
 
 // Expanded category data
 const categoryData: Category[] = [
   {
-    title: "Free Shipping",
-    icon: <Truck className="size-8" />,
+    title: "Technology",
+    icon: <Laptop className="size-8" />,
+    href: "/blogs/categories/1",
   },
   {
-    title: "1 & 1 Returns",
-    icon: <RefreshCcw className="size-8" />,
+    title: "Lifestyle",
+    icon: <Coffee className="size-8" />,
+    href: "/blogs/categories/2",
   },
   {
-    title: "Secure Payments",
-    icon: <Shield className="size-8" />,
+    title: "Business",
+    icon: <Briefcase className="size-8" />,
+    href: "/blogs/categories/3",
   },
   {
-    title: "24/7 Support",
-    icon: <Headphones className="size-8" />,
+    title: "Health & Wellness",
+    icon: <HeartPulse className="size-8" />,
+    href: "/blogs/categories/4",
   },
-  { title: "New Arrivals", icon: <Tag className="size-8" /> },
   {
-    title: "Best Sellers",
-    icon: <Star className="size-8" />,
+    title: "Travel",
+    icon: <Plane className="size-8" />,
+    href: "/blogs/categories/5",
   },
-  { title: "Favorites", icon: <Heart className="size-8" /> },
-  { title: "Gift Cards", icon: <Gift className="size-8" /> },
+  {
+    title: "Food & Recipes",
+    icon: <Utensils className="size-8" />,
+    href: "/blogs/categories/6",
+  },
+  {
+    title: "Education",
+    icon: <GraduationCap className="size-8" />,
+    href: "/blogs/categories/7",
+  },
 ];
 
 const Categories: React.FC = () => {
@@ -70,13 +80,13 @@ const Categories: React.FC = () => {
 
         {/* Carousel */}
         <Carousel className="w-full">
-          <CarouselContent className="gap-4 pl-2">
+          <CarouselContent className="gap-4 px-4">
             {categoryData.map((item, index) => (
               <CarouselItem
                 key={index}
                 className="w-32 flex-none px-1 sm:w-36 md:w-40 lg:w-44"
               >
-                <div className="p-1">
+                <Link href={item.href} className="p-1">
                   <div className="items-center justify-center rounded-full bg-gray-100/80 dark:bg-gray-800">
                     <div className="flex aspect-square items-center justify-center p-4">
                       {item.icon}
@@ -85,7 +95,7 @@ const Categories: React.FC = () => {
                   <h3 className="mt-4 text-center text-sm font-medium text-gray-800 dark:text-white">
                     {item.title}
                   </h3>
-                </div>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>

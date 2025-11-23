@@ -134,8 +134,6 @@ export function FileUploaderHorizontal(props: FileUploaderProps) {
 
       if (rejectedFiles.length > 0) {
         rejectedFiles.forEach(({ file, errors }) => {
-          // console.log({ file, errors });
-          // toast.error(`File ${file.name} was rejected`);
           errors.forEach((error) => {
             toast.error(
               `File ${file.name} was rejected. ${error.code === "file-too-large" ? `File size greater than ${maxSize / (1024 * 1024)} MB` : error.message}`,

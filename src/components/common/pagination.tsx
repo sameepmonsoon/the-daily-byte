@@ -2,7 +2,7 @@
 import { usePathname, useSearchParams } from "next/navigation";
 
 import { usePagination } from "@/hooks/common/use-pagination";
-import { updateURLParams } from "@/lib/utils";
+import { cn, updateURLParams } from "@/lib/utils";
 
 import {
   Pagination,
@@ -46,7 +46,7 @@ export default function PaginationComponent({
   };
 
   return (
-    <Pagination className={className}>
+    <Pagination className={cn("dark:text-white", className)}>
       <PaginationContent className="gap-1 md:gap-3 xl:gap-5">
         <PaginationItem>
           {currentPage !== 1 && (

@@ -15,15 +15,19 @@ export default async function DeletedBlogsListPage({
   const fetchOptions = parseSearchParams({
     ...params,
   });
-  const res = await BlogService.listDeleted(Number(fetchOptions?.page ?? 1));
-  console.log({ res });
+  const { data, meta, error } = await BlogService.listDeleted(
+    Number(fetchOptions?.page ?? 1),
+  );
+  if (error || !data) {
+    return <>Something went wrong!</>;
+  }
   return (
     <div>
-      <DeletedBlogsTable key={fetchOptions?.page} blogs={res?.data} />
+      <DeletedBlogsTable key={fetchOptions?.page} blogs={data} />
       <div className="mt-8 flex flex-1 items-center justify-between">
         <PaginationComponent
           currentPage={fetchOptions.page ? parseInt(fetchOptions.page) : 1}
-          totalPages={res?.meta?.total}
+          totalPages={meta?.totalPages ?? 0}
           className="flex-1 justify-start md:justify-center"
         />
       </div>

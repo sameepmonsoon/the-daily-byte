@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 
 interface Option {
   label: string;
@@ -18,11 +20,24 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options }) => {
   );
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   const handleOptionClick = (option: Option) => {
     setSelectedOption(option);
     setIsOpen(false);
+
+    // Update URL param ?category=<value>
+    const params = new URLSearchParams(searchParams.toString());
+    if (option.value === "0") {
+      router.push(`/blogs`);
+      return;
+    } else params.set("category", String(option.value));
+
+    router.push(`/blogs/categories/${option.value}?${params.toString()}`);
   };
 
   // Close on outside click or scroll
@@ -36,9 +51,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options }) => {
       }
     };
 
-    const handleScroll = () => {
-      setIsOpen(false);
-    };
+    const handleScroll = () => setIsOpen(false);
 
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -59,11 +72,17 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options }) => {
       <div
         onClick={toggleDropdown}
         className={cn(
-          "select-selected text-primary cursor-pointer rounded-md rounded-r-none border bg-white px-3 py-2.5 text-sm whitespace-nowrap dark:border-white/30 dark:bg-gray-900 dark:text-white",
-          isOpen && "select-arrow-active border-blue-500",
+          "select-selected text-primary flex cursor-pointer items-center justify-between rounded-[30px] border bg-white px-3 py-2.5 text-sm dark:border-white/30 dark:bg-gray-900 dark:text-white",
+          isOpen && "border-blue-500",
         )}
       >
-        {selectedOption?.label}
+        <span className="whitespace-nowrap">{selectedOption?.label}</span>
+        <ChevronDown
+          className={cn(
+            "ml-2 h-4 w-4 transition-transform duration-200",
+            isOpen && "rotate-180",
+          )}
+        />
       </div>
 
       {isOpen && (

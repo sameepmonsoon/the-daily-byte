@@ -21,6 +21,7 @@ export interface BlogCategory {
   key: string;
   value: string;
   name: string;
+  label: string;
 }
 
 export interface BlogPayload {

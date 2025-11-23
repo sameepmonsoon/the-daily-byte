@@ -38,7 +38,7 @@ export function updateURLParams(
 export function parseSearchParams(searchParams: {
   [key: string]: string | string[] | undefined;
 }) {
-  const { search, sort, page } = searchParams;
+  const { search, sort, page, slug } = searchParams;
 
   const fetchOptions: {
     search?: string;
@@ -75,7 +75,10 @@ export function parseSearchParams(searchParams: {
   if (searchParams.limit) {
     fetchOptions.limit = searchParams.limit as string;
   }
-
+  // slug
+  if (slug) {
+    fetchOptions.slug = slug as string;
+  }
   return fetchOptions;
 }
 

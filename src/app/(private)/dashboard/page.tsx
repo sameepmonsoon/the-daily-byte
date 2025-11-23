@@ -1,7 +1,5 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
-function MyAccountPage() {
-  return <div className="">MyAccountPage</div>;
+export default function DashboardPage() {
+  redirect("/dashboard/blogs/list");
 }
-
-export default MyAccountPage;

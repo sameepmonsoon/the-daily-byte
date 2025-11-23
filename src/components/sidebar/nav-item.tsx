@@ -44,6 +44,8 @@ export function NavMain({
     return pathName === url;
   };
   const checkIsSubMenuActive = (url?: string) => {
+    logger.log("url", { url, pathName });
+
     if (url) return pathName.includes(url);
     return pathName === url;
   };
@@ -66,12 +68,12 @@ export function NavMain({
                     className={cn(
                       "h-10 cursor-pointer rounded-sm! dark:hover:bg-gray-800 dark:hover:text-white!",
                       {
-                        "text-primary bg-custom-gray-4/10 hover:text-primary!":
+                        "text-primary hover:text-primary! bg-gray-400/10 dark:text-white":
                           checkIsSubMenuActive(item.url),
                       },
                       checkIsActive(item.url)
-                        ? "text-primary bg-custom-gray-4/10 hover:text-primary! dark:bg-white! dark:text-white"
-                        : "hover:bg-custom-gray-4/10! hover:text-primary! dark:text-white!",
+                        ? "text-primary hover:text-primary! bg-gray-400/10 dark:text-white dark:hover:text-white!"
+                        : "hover:text-primary! hover:bg-gray-400/10! dark:text-white!",
                     )}
                   >
                     {item.icon && <item.icon />}
@@ -88,7 +90,7 @@ export function NavMain({
                           className={cn(
                             "group h-8 rounded-sm! dark:hover:bg-gray-800 dark:hover:text-white",
                             checkIsActive(subItem.url)
-                              ? "text-primary! bg-custom-gray-4/10"
+                              ? "text-primary hover:text-primary! bg-gray-400/10 dark:text-white dark:hover:text-white!"
                               : "hover:bg-custom-gray-4/10! hover:text-primary dark:hover:text-white",
                           )}
                         >

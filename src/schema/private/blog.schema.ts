@@ -62,16 +62,11 @@ export type BlogSchemaType = z.infer<typeof blogSchema>;
 export type BlogCreatePayload = Omit<
   Extract<BlogSchemaType, { form_type: "create" }>,
   "blogImages" | "featuredImage"
-> & {
-  photosIds?: PhotoIds[];
-  additionalLinks?: Record<string, string>;
-  timezoneOffset?: number;
-};
+> & { coverImage: string };
 
 export type BlogUpdatePayload = Omit<
   Extract<BlogSchemaType, { form_type: "update" }>,
   "blogImages" | "featuredImage"
 > & {
-  photosIds?: PhotoIds[];
-  additionalLinks?: Record<string, string>;
+  coverImage: string;
 };

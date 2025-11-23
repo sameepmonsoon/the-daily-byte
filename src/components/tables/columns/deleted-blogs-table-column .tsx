@@ -12,7 +12,7 @@ export const statusConfig: Record<
 > = {
   active: {
     icon: <Shield className="h-4 w-4" />,
-    color: "bg-green-100 text-green-800",
+    color: "bg-blue-100 text-blue-800",
   },
   inactive: {
     icon: <ShieldOff className="h-4 w-4" />,
@@ -90,7 +90,7 @@ export const AdminDeletedBlogsColumns: ColumnDef<AdminBlogs>[] = [
     header: "Blog Image",
     accessorKey: "image",
     cell: ({ row }) => {
-      const imgUrl = row.original.image;
+      const imgUrl = row.original.coverimage;
       return (
         <div className="flex w-auto items-center">
           <div className="flex -space-x-2">

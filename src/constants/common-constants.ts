@@ -25,12 +25,6 @@ export enum ROLE {
 export const adminNavigation = {
   navMain: [
     {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: LayoutDashboard,
-    },
-
-    {
       title: "Blogs",
       url: "/dashboard/blog",
       icon: BookCopy,

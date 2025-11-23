@@ -56,7 +56,7 @@ export default function RHFFileInput<T extends FieldValues>({
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-base font-medium !text-black">
+            <FormLabel className="text-base font-medium !text-black dark:text-white!">
               {formLabel}
               {required && <span className="text-red-500">*</span>}
             </FormLabel>

@@ -390,7 +390,7 @@ export default function RHFRichtextEditor<T extends FieldValues>({
         render={({ field }) => {
           return (
             <FormItem className="w-full">
-              <FormLabel className="text-base font-medium text-black!">
+              <FormLabel className="text-base font-medium text-black! dark:text-white!">
                 {formLabel}
                 {required && <span className="text-red-500">*</span>}
               </FormLabel>

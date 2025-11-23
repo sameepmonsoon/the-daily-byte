@@ -12,7 +12,7 @@ export const statusConfig: Record<
 > = {
   active: {
     icon: <Shield className="h-4 w-4" />,
-    color: "bg-green-100 text-green-800",
+    color: "bg-blue-100 text-blue-800",
   },
   inactive: {
     icon: <ShieldOff className="h-4 w-4" />,
@@ -33,7 +33,7 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogs>[] = [
       return (
         <Badge
           variant="outline"
-          className="line-clamp-1 max-w-22 text-ellipsis"
+          className="text-primary line-clamp-1 max-w-22 text-ellipsis dark:text-white"
         >
           {id}
         </Badge>

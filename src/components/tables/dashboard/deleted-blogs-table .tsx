@@ -1,11 +1,9 @@
 "use client";
 import { useReactTable } from "@tanstack/react-table";
 import { getCoreRowModel, TableOptions } from "@tanstack/table-core";
-import { ArchiveRestore, Edit, EyeIcon, Search, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { ArchiveRestore } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -105,15 +103,6 @@ function DeletedBlogsTable({ blogs }: { blogs: AdminBlogs[] }) {
   return (
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row">
-        <div className="relative flex-1">
-          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-          <Input
-            placeholder="Search by product..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-12 bg-white/70 pl-9 dark:bg-gray-900!"
-          />
-        </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="h-12! w-full cursor-pointer bg-white/70 sm:w-[200px] dark:bg-gray-900!">
             <SelectValue placeholder="Filter by status" />

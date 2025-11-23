@@ -16,7 +16,7 @@ const redirectTo = (url: string, request: NextRequest) => {
   return NextResponse.redirect(new URL(url, request.url));
 };
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const authToken = await getToken({ req: request });
   const { pathname } = request.nextUrl;
   // If the user is logged in and tries to access restricted paths
@@ -35,5 +35,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/sign-in", "/register", "/my-account/:path*", "/dashboard/:path"],
+  matcher: [
+    "/sign-in",
+    "/register",
+    "/my-account/:path*",
+    "/verify-email",
+    "/verify-email",
+  ],
 };

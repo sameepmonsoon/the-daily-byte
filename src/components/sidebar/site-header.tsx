@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Breadcrumbs } from "../common/custom-bread-crumb";
+import { Breadcrumbs } from "../common/breadcrumbs/custom-bread-crumb";
 import { ThemeToggle } from "../common/buttons/theme-toggle-btn";
 
 export function SiteHeader() {

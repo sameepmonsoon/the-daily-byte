@@ -6,14 +6,6 @@ A modern Next.js 16 application for blogging and content management, featuring b
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Environment Variables](#environment-variables)
-- [Folder Structure](#folder-structure)
-- [Available Scripts](#available-scripts)
-- [API Endpoints](#api-endpoints)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -52,11 +44,3 @@ It features:
 - **Form Handling & Validation:** React Hook Form + Zod
 - **Deployment:** Vercel or Netlify (free tier)
 
----
-
-## Getting Started
-
-### 1. Clone repository
-```bash
-git clone git@github.com:sameepmonsoon/the-daily-byte.git
-cd the-daily-byte
